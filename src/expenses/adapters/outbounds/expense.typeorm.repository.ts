@@ -5,7 +5,7 @@ import { Builder, StrictBuilder } from 'builder-pattern';
 import { GetAllMetaType } from 'src/types/utility.type';
 import { UserId } from 'src/users/applications/domains/user.domain';
 import { v4 as uuidv4 } from 'uuid';
-import { Expense, ExpenseId, IExpense } from '../../applications/domains/expense.domain';
+import { Expense, ExpenseAmount, ExpenseId, IExpense } from '../../applications/domains/expense.domain';
 import {
   ExpenseReportReturnType,
   ExpenseRepository,
@@ -110,13 +110,14 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
     await this.expenseModel.tx
       .getRepository(ExpenseEntity)
       .update({ uuid: expense.uuid, userId: expense.userId }, expense);
+
     const updatedExpense = await this.expenseModel.tx.getRepository(ExpenseEntity).findOne({
       where: {
         uuid: expense.uuid,
         userId: expense.userId,
       },
     });
-    return ExpenseTypeOrmRepository.toDomain(updatedExpense as ExpenseEntity);
+    return ExpenseTypeOrmRepository.toDomain(updatedExpense!);
   }
 
   async getExpenseReport(query: GetExpenseReportQuery): Promise<ExpenseReportReturnType> {
@@ -168,10 +169,11 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
   }
 
   public static toDomain(expenseEntity: ExpenseEntity): IExpense {
+    const amount = parseFloat(expenseEntity.amount.toString()) as ExpenseAmount;
     return Builder(Expense)
       .uuid(expenseEntity.uuid)
       .title(expenseEntity.title)
-      .amount(expenseEntity.amount)
+      .amount(amount)
       .date(expenseEntity.date)
       .category(expenseEntity.category)
       .notes(expenseEntity.notes)

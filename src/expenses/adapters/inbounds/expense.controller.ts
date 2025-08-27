@@ -177,6 +177,7 @@ export class ExpenseController {
   ) {
     const date = updateExpenseDto.date ? new Date(updateExpenseDto.date) : new Date();
     const expense = Builder<Expense>()
+      .uuid(id)
       .userId(req.user.userId as UserId)
       .title(updateExpenseDto.title as ExpenseTitle)
       .amount(updateExpenseDto.amount as ExpenseAmount)

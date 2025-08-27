@@ -33,7 +33,7 @@ GET {{host}}/expenses?category=Food&startDate=2024-01-01&endDate=2024-12-31&page
 authorization: Bearer {{myAccessToken}}
 
 ### Get Expense By Id (replace with actual expense ID)
-GET {{host}}/expenses/0abaa5c2-70aa-4891-8aa2-929de6d8d1e0
+GET {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
 authorization: Bearer {{myAccessToken}}
 
 ### Update Expense By Id (replace with actual expense ID)
@@ -42,8 +42,8 @@ Content-Type: application/json
 authorization: Bearer {{myAccessToken}}
 
 {
-    "title": "Updated Grocery Shopping",
-    "amount": 175.50,
+    "title": "Updated Grocery Shopping test",
+    "amount": 180.50,
     "date": "2024-01-16",
     "category": "Food",
     "notes": "Updated notes about the expense"
