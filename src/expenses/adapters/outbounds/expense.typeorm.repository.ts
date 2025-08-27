@@ -13,7 +13,6 @@ import {
   GetAllExpensesQuery,
   GetAllExpensesReturnType,
   GetExpenseReportQuery,
-  UpdateExpenseCommand,
 } from '../../applications/ports/expense.repository';
 import { ExpenseEntity } from './expense.entity';
 
@@ -108,7 +107,9 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
   }
 
   async updateByIdAndUserId(expense: IExpense): Promise<IExpense> {
-    await this.expenseModel.tx.getRepository(ExpenseEntity).update({ uuid: expense.uuid, userId: expense.userId }, expense);
+    await this.expenseModel.tx
+      .getRepository(ExpenseEntity)
+      .update({ uuid: expense.uuid, userId: expense.userId }, expense);
     const updatedExpense = await this.expenseModel.tx.getRepository(ExpenseEntity).findOne({
       where: {
         uuid: expense.uuid,
