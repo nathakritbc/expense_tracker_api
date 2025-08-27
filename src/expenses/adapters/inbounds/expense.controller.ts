@@ -18,6 +18,7 @@ import { Builder, StrictBuilder } from 'builder-pattern';
 import { JwtAuthGuard } from 'src/auth/jwtAuth.guard';
 import { UserId } from 'src/users/applications/domains/user.domain';
 import type {
+  Expense,
   ExpenseAmount,
   ExpenseCategory,
   ExpenseDate,
@@ -26,11 +27,7 @@ import type {
   ExpenseTitle,
   IExpense,
 } from '../../applications/domains/expense.domain';
-import {
-  GetAllExpensesQuery,
-  GetExpenseReportQuery,
-  UpdateExpenseCommand,
-} from '../../applications/ports/expense.repository';
+import { GetAllExpensesQuery, GetExpenseReportQuery } from '../../applications/ports/expense.repository';
 import { CreateExpenseUseCase } from '../../applications/usecases/createExpense.usecase';
 import { DeleteExpenseByIdUseCase } from '../../applications/usecases/deleteExpenseById.usecase';
 import { GetAllExpensesUseCase } from '../../applications/usecases/getAllExpenses.usecase';
@@ -178,15 +175,17 @@ export class ExpenseController {
     @Body() updateExpenseDto: UpdateExpenseDto,
     @Request() req: AuthenticatedRequest,
   ) {
-    const command = Builder<UpdateExpenseCommand>()
+    const date = updateExpenseDto.date ? new Date(updateExpenseDto.date) : new Date();
+    const expense = Builder<Expense>()
+      .userId(req.user.userId as UserId)
       .title(updateExpenseDto.title as ExpenseTitle)
       .amount(updateExpenseDto.amount as ExpenseAmount)
-      .date(updateExpenseDto.date ? (new Date(updateExpenseDto.date) as ExpenseDate) : undefined)
+      .date(date as ExpenseDate)
       .category(updateExpenseDto.category as ExpenseCategory)
       .notes(updateExpenseDto.notes as ExpenseNotes)
       .build();
 
-    return this.updateExpenseByIdUseCase.execute({ id, expense: command, userId: req.user.userId as UserId });
+    return this.updateExpenseByIdUseCase.execute(expense);
   }
 
   @ApiOperation({ summary: 'Delete an expense' })

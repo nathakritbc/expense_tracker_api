@@ -107,20 +107,12 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
     return expense ? ExpenseTypeOrmRepository.toDomain(expense) : undefined;
   }
 
-  async updateByIdAndUserId({
-    id,
-    expense,
-    userId,
-  }: {
-    id: ExpenseId;
-    expense: UpdateExpenseCommand;
-    userId: UserId;
-  }): Promise<IExpense> {
-    await this.expenseModel.tx.getRepository(ExpenseEntity).update({ uuid: id, userId: userId }, expense);
+  async updateByIdAndUserId(expense: IExpense): Promise<IExpense> {
+    await this.expenseModel.tx.getRepository(ExpenseEntity).update({ uuid: expense.uuid, userId: expense.userId }, expense);
     const updatedExpense = await this.expenseModel.tx.getRepository(ExpenseEntity).findOne({
       where: {
-        uuid: id,
-        userId: userId,
+        uuid: expense.uuid,
+        userId: expense.userId,
       },
     });
     return ExpenseTypeOrmRepository.toDomain(updatedExpense as ExpenseEntity);

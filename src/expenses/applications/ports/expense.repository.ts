@@ -47,13 +47,5 @@ export interface ExpenseRepository {
   getAll(params: GetAllExpensesQuery): Promise<GetAllExpensesReturnType>;
   getByIdAndUserId({ id, userId }: { id: ExpenseId; userId: UserId }): Promise<IExpense | undefined>;
   getExpenseReport(query: GetExpenseReportQuery): Promise<ExpenseReportReturnType>;
-  updateByIdAndUserId({
-    id,
-    expense,
-    userId,
-  }: {
-    id: ExpenseId;
-    expense: UpdateExpenseCommand;
-    userId: UserId;
-  }): Promise<IExpense>;
+  updateByIdAndUserId(expense: IExpense): Promise<IExpense>;
 }
