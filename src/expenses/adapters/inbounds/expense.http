@@ -33,7 +33,7 @@ GET {{host}}/expenses?category=Food&startDate=2024-01-01&endDate=2024-12-31&page
 authorization: Bearer {{myAccessToken}}
 
 ### Get Expense By Id (replace with actual expense ID)
-GET {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+GET {{host}}/expenses/0abaa5c2-70aa-4891-8aa2-929de6d8d1e0
 authorization: Bearer {{myAccessToken}}
 
 ### Update Expense By Id (replace with actual expense ID)
@@ -50,7 +50,7 @@ authorization: Bearer {{myAccessToken}}
 }
 
 ### Delete Expense By Id (replace with actual expense ID)
-DELETE {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+DELETE {{host}}/expenses/0abaa5c2-70aa-4891-8aa2-929de6d8d1e0
 authorization: Bearer {{myAccessToken}}
 
 ### Get Expense Report
