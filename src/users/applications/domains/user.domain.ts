@@ -3,10 +3,10 @@ import { StrictBuilder } from 'builder-pattern';
 import { argon2Config } from 'src/configs/auth.config';
 import { Brand, CreatedAt, UpdatedAt } from 'src/types/utility.type';
 
-export type UserId = Brand<string, 'UserId'>;
-export type UserEmail = Brand<string, 'UserEmail'>;
-export type UserPassword = Brand<string, 'UserPassword'>;
 export type UserCreatedAt = Brand<CreatedAt, 'UserCreatedAt'>;
+export type UserEmail = Brand<string, 'UserEmail'>;
+export type UserId = Brand<string, 'UserId'>;
+export type UserPassword = Brand<string, 'UserPassword'>;
 export type UserUpdatedAt = Brand<UpdatedAt, 'UserUpdatedAt'>;
 
 export interface IUser {

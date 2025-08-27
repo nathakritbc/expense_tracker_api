@@ -1,0 +1,102 @@
+### Login
+# @name login
+POST {{host}}/auth/login
+content-type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+###
+
+@myAccessToken = {{login.response.body.accessToken}}
+
+### Create expense
+POST {{host}}/expenses
+Content-Type: application/json
+authorization: Bearer {{myAccessToken}}
+
+{
+    "title": "Grocery Shoppings",
+    "amount": 150.75,
+    "date": "2024-01-15",
+    "category": "Food2",
+    "notes": "Weekly groceries from the local supermarket"
+}
+
+### Get All Expenses
+GET {{host}}/expenses
+authorization: Bearer {{myAccessToken}}
+
+### Get All Expenses with filters
+GET {{host}}/expenses?category=Food&startDate=2024-01-01&endDate=2024-12-31&page=1&limit=10&sort=date&order=DESC
+authorization: Bearer {{myAccessToken}}
+
+### Get Expense By Id (replace with actual expense ID)
+GET {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+authorization: Bearer {{myAccessToken}}
+
+### Update Expense By Id (replace with actual expense ID)
+PUT {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+Content-Type: application/json
+authorization: Bearer {{myAccessToken}}
+
+{
+    "title": "Updated Grocery Shopping",
+    "amount": 175.50,
+    "date": "2024-01-16",
+    "category": "Food",
+    "notes": "Updated notes about the expense"
+}
+
+### Delete Expense By Id (replace with actual expense ID)
+DELETE {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+authorization: Bearer {{myAccessToken}}
+
+### Get Expense Report
+GET {{host}}/expenses/reports/by-category
+authorization: Bearer {{myAccessToken}}
+
+### Get Expense Report with date range
+GET {{host}}/expenses/reports/by-category?startDate=2024-01-01&endDate=2024-12-31
+authorization: Bearer {{myAccessToken}}
+
+### Create multiple test expenses for testing
+POST {{host}}/expenses
+Content-Type: application/json
+authorization: Bearer {{myAccessToken}}
+
+{
+    "title": "Gas Station",
+    "amount": 45.00,
+    "date": "2024-01-10",
+    "category": "Transportation",
+    "notes": "Weekly fuel"
+}
+
+###
+
+POST {{host}}/expenses
+Content-Type: application/json
+authorization: Bearer {{myAccessToken}}
+
+{
+    "title": "Movie Ticket",
+    "amount": 12.50,
+    "date": "2024-01-12",
+    "category": "Entertainment"
+}
+
+###
+
+POST {{host}}/expenses
+Content-Type: application/json
+authorization: Bearer {{myAccessToken}}
+
+{
+    "title": "Doctor Visit",
+    "amount": 85.00,
+    "date": "2024-01-08",
+    "category": "Healthcare",
+    "notes": "Regular check-up"
+}

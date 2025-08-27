@@ -38,7 +38,6 @@ export class AuthController {
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
     const command = Builder<RegisterCommand>().email(registerDto.email).password(registerDto.password).build();
-
     return this.registerUseCase.execute(command);
   }
 
@@ -59,7 +58,6 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     const command = Builder<LoginCommand>().email(loginDto.email).password(loginDto.password).build();
-
     const accessToken = await this.loginUseCase.execute(command);
     return {
       accessToken,
