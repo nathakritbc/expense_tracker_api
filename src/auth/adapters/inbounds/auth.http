@@ -4,7 +4,7 @@ POST {{host}}/auth/register
 content-type: application/json
 
 {
-  "email": "john@example.com",
+  "email": "user1@example.com",
   "password": "password123"
 }
 ###
@@ -15,7 +15,7 @@ POST {{host}}/auth/login
 content-type: application/json
 
 {
-  "email": "john@example.com",
+  "email": "user1@example.com",
   "password": "password123"
 }
 ###
