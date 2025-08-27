@@ -8,6 +8,7 @@ import { httpConfig } from './configs/http.config';
 import { loggerConfig } from './configs/logger.config';
 import { typeormRootConfig } from './configs/typeorm.config';
 import { DatabaseModule } from './databases/database.module';
+import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { DatabaseModule } from './databases/database.module';
     HttpModule.register(httpConfig),
     LoggerModule.forRoot(loggerConfig),
     DatabaseModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
