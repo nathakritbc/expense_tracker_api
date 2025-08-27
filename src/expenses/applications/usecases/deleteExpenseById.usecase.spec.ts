@@ -23,14 +23,14 @@ describe('DeleteProductByIdUseCase', () => {
   const userId = faker.string.uuid() as UserId;
   it('should be throw error when expense not found', async () => {
     //Arrange
-    expenseRepository.getByIdAndUserId.mockResolvedValue(undefined);
     const errorExpected = new NotFoundException('Expense not found');
+    expenseRepository.getByIdAndUserId.mockResolvedValue(undefined);
 
     //Act
-    const actual = useCase.execute({ id: expenseId, userId });
+    const promise = useCase.execute({ id: expenseId, userId });
 
     //Assert
-    await expect(actual).rejects.toThrow(errorExpected);
+    await expect(promise).rejects.toThrow(errorExpected);
     expect(expenseRepository.getByIdAndUserId).toHaveBeenCalledWith({ id: expenseId, userId });
     expect(expenseRepository.deleteByIdAndUserId).not.toHaveBeenCalled();
   });
