@@ -17,7 +17,7 @@ Content-Type: application/json
 authorization: Bearer {{myAccessToken}}
 
 {
-    "title": "Grocery Shoppings",
+    "title": "Apple 13 Pro Max 256GB",
     "amount": 150.75,
     "date": "2024-01-15",
     "category": "Food2",
@@ -29,20 +29,28 @@ GET {{host}}/expenses
 authorization: Bearer {{myAccessToken}}
 
 ### Get All Expenses with filters
-GET {{host}}/expenses?category=Food&startDate=2024-01-01&endDate=2024-12-31&page=1&limit=10&sort=date&order=DESC
+GET {{host}}/expenses?category=Food2&startDate=2024-01-01&endDate=2024-12-31&page=1&limit=10&sort=date&order=DESC
+authorization: Bearer {{myAccessToken}}
+
+### Get All Expenses with filters
+GET {{host}}/expenses?startDate=2024-01-01&endDate=2024-12-31&page=1&limit=1&sort=date&order=DESC
+authorization: Bearer {{myAccessToken}}
+
+### Get All Expenses with filters no limit
+GET {{host}}/expenses?limit=-1&page=1&sort=date&order=DESC
 authorization: Bearer {{myAccessToken}}
 
 ### Get Expense By Id (replace with actual expense ID)
-GET {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+GET {{host}}/expenses/c8c92575-860a-41e8-88b7-cd8ff7307a04
 authorization: Bearer {{myAccessToken}}
 
 ### Update Expense By Id (replace with actual expense ID)
-PUT {{host}}/expenses/eed5d780-3565-416d-9431-dbaaf9ea899f
+PUT {{host}}/expenses/c8c92575-860a-41e8-88b7-cd8ff7307a04
 Content-Type: application/json
 authorization: Bearer {{myAccessToken}}
 
 {
-    "title": "Updated Grocery Shopping test",
+    "title": "A1 Grocery Shopping Updated",
     "amount": 180.50,
     "date": "2024-01-16",
     "category": "Food",
@@ -50,7 +58,7 @@ authorization: Bearer {{myAccessToken}}
 }
 
 ### Delete Expense By Id (replace with actual expense ID)
-DELETE {{host}}/expenses/0abaa5c2-70aa-4891-8aa2-929de6d8d1e0
+DELETE {{host}}/expenses/c8c92575-860a-41e8-88b7-cd8ff7307a04
 authorization: Bearer {{myAccessToken}}
 
 ### Get Expense Report
