@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/nathakritbc/expense_tracker_api/compare/v1.1.0...v1.2.0) (2025-08-28)
+
+### Features
+
+*  🎸 add Docker support and environment configuration ([057d42f](https://github.com/nathakritbc/expense_tracker_api/commit/057d42fdba32e2f179563ac30b48fc984f7de814))
+* 🎸 update Docker configuration and deployment scripts ([1af5584](https://github.com/nathakritbc/expense_tracker_api/commit/1af558498ae2a0a5d02f00ffa790ca87639b2c47))
+* 🎸 update Swagger authentication configuration for expenses ([c2939a2](https://github.com/nathakritbc/expense_tracker_api/commit/c2939a28125e9e98cb85a9918258bcc347ab106b))
+
 ## [1.1.0](https://github.com/nathakritbc/expense_tracker_api/compare/v1.0.0...v1.1.0) (2025-08-28)
 
 ### Features
