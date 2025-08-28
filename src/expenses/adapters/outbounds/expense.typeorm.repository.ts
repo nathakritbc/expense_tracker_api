@@ -123,27 +123,23 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
   async getExpenseReport(query: GetExpenseReportQuery): Promise<ExpenseReportReturnType> {
     const { userId, startDate, endDate } = query;
 
-    const queryBuilder = this.expenseModel.tx.getRepository(ExpenseEntity).createQueryBuilder('expense');
+    const baseQB = this.expenseModel.tx.getRepository(ExpenseEntity).createQueryBuilder('expense');
 
-    // Filter by user
-    queryBuilder.where('expense.userId = :userId', { userId });
+    // Filter
+    baseQB.where('expense.userId = :userId', { userId });
+    if (startDate) baseQB.andWhere('expense.date >= :startDate', { startDate });
+    if (endDate) baseQB.andWhere('expense.date <= :endDate', { endDate });
 
-    // Filter by date range if provided
-    if (startDate) {
-      queryBuilder.andWhere('expense.date >= :startDate', { startDate });
-    }
-    if (endDate) {
-      queryBuilder.andWhere('expense.date <= :endDate', { endDate });
-    }
-
-    // Get total amount and count
-    const totalResult = await queryBuilder
+    // --- Total summary ---
+    const totalQB = baseQB.clone();
+    const totalResult = await totalQB
       .select('SUM(expense.amount)', 'totalAmount')
       .addSelect('COUNT(expense.uuid)', 'totalExpenses')
       .getRawOne();
 
-    // Get expenses by category
-    const categoryResults = await queryBuilder
+    // --- Category summary ---
+    const categoryQB = baseQB.clone();
+    const categoryResults = await categoryQB
       .select('expense.category', 'category')
       .addSelect('SUM(expense.amount)', 'total')
       .addSelect('COUNT(expense.uuid)', 'count')
@@ -153,23 +149,20 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
 
     const categories: ExpensesByCategory[] = categoryResults.map((result) => ({
       category: result.category,
-      total: parseFloat(result.total) || 0,
+      total: Number(result.total) || 0,
       count: parseInt(result.count) || 0,
     }));
 
     return {
-      totalAmount: parseFloat(totalResult?.totalAmount) || 0,
+      totalAmount: Number(totalResult?.totalAmount) || 0,
       totalExpenses: parseInt(totalResult?.totalExpenses) || 0,
       categories,
-      dateRange: {
-        startDate,
-        endDate,
-      },
+      dateRange: { startDate, endDate },
     };
   }
 
   public static toDomain(expenseEntity: ExpenseEntity): IExpense {
-    const amount = parseFloat(expenseEntity.amount.toString()) as ExpenseAmount;
+    const amount = Number(expenseEntity.amount.toString()) as ExpenseAmount;
     return Builder(Expense)
       .uuid(expenseEntity.uuid)
       .title(expenseEntity.title)
