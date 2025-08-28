@@ -52,7 +52,7 @@ deploy_dev() {
     print_status "API will be available at: http://localhost:9009"
     print_status "API Documentation: http://localhost:9009/api"
     print_status "Database: localhost:5432"
-    print_status "Note: Run 'make migrate' manually if you need to run migrations"
+    print_status "Note: Database migrations will run automatically on startup"
     
     # Show logs
     print_status "Showing logs (Ctrl+C to exit)..."

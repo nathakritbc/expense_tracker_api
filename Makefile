@@ -18,6 +18,7 @@ help:
 # Development environment
 dev:
 	@echo "Starting development environment..."
+	@echo "Note: Database migrations will run automatically on startup"
 	./scripts/docker-deploy.sh dev
 
 # Production environment

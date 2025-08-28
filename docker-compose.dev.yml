@@ -46,14 +46,21 @@ services:
       - "${PORT:-9009}:9009"
       - "9229:9229"  # Debug port
     volumes:
-      - .:/app
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tsconfig.build.json:/app/tsconfig.build.json
+      - ./nest-cli.json:/app/nest-cli.json
+      - ./vitest.config.ts:/app/vitest.config.ts
+      - ./vitest.global-setup.ts:/app/vitest.global-setup.ts
       - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - expense_tracker_dev_network
-    command: ["pnpm", "run", "start:dev"]
+    command: ["sh", "/app/init-dev.sh"]
 
 volumes:
   postgres_dev_data:
