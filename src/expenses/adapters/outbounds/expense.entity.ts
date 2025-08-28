@@ -1,3 +1,4 @@
+import { UserEntity } from 'src/users/adapters/outbounds/user.entity';
 import type { UserId } from 'src/users/applications/domains/user.domain';
 import {
   Column,
@@ -76,7 +77,7 @@ export class ExpenseEntity {
     onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
-  user: any;
+  user?: UserEntity;
 
   @CreateDateColumn()
   declare createdAt: ExpenseCreatedAt;

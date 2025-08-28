@@ -1,3 +1,4 @@
+import { ExpenseEntity } from 'src/expenses/adapters/outbounds/expense.entity';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import type {
   UserCreatedAt,
@@ -30,7 +31,7 @@ export class UserEntity {
   password: UserPassword;
 
   @OneToMany('ExpenseEntity', 'user')
-  expenses: any[];
+  expenses: ExpenseEntity[];
 
   @CreateDateColumn()
   declare createdAt: UserCreatedAt;
