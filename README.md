@@ -39,7 +39,7 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
 
 ### Prerequisites
 
-- **Node.js** (v18+)
+- **Node.js** (v22+)
 - **pnpm** (recommended) or npm
 - **PostgreSQL** (v12+)
 - **Git**
@@ -49,7 +49,7 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/nathakritbc/expense_tracker_api.git
    cd expense_tracker_api
    ```
 
@@ -92,7 +92,30 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
    CREATE DATABASE expense_tracker;
    ```
 
-5. **Start the application**
+5. **Database Migration**
+
+   Run database migrations to set up the required tables:
+
+   ```bash
+   pnpm run migration:run
+   ```
+
+6. **Start the application**
+
+   Development mode:
+
+   ```bash
+   pnpm run dev
+   ```
+
+   Production mode:
+
+   ```bash
+   pnpm run build
+   pnpm run start:prod
+   ```
+
+6. **Start the application**
 
    Development mode:
 
@@ -290,7 +313,7 @@ This project includes comprehensive Docker support for both development and prod
 
 1. **Clone and setup:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/nathakritbc/expense_tracker_api.git
    cd expense_tracker_api
    make setup
    ```
