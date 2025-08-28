@@ -41,7 +41,7 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
 
 - **Node.js** (v22+)
 - **pnpm** (recommended) or npm
-- **PostgreSQL** (v12+)
+- **PostgreSQL** (v15+)
 - **Git**
 
 ### Installation
