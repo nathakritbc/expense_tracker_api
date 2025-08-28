@@ -49,49 +49,59 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
     const currentPage = page ?? 1;
     const currentLimit = limit ?? 10;
 
-    const queryBuilder = this.expenseModel.tx.getRepository(ExpenseEntity).createQueryBuilder('expense');
+    const repo = this.expenseModel.tx.getRepository(ExpenseEntity);
+    const qb = repo.createQueryBuilder('expense');
 
-    // Filter by user (always required)
-    queryBuilder.where('expense.userId = :userId', { userId });
+    // Always filter by user
+    qb.where('expense.userId = :userId', { userId });
 
-    // Search in title or notes
+    //Search (case-insensitive)
     if (search) {
-      queryBuilder.andWhere('(expense.title LIKE :search OR expense.notes LIKE :search)', {
+      qb.andWhere('(expense.title ILIKE :search OR expense.notes ILIKE :search)', {
         search: `%${search}%`,
       });
     }
 
-    // Filter by category
+    // Category filter
     if (category) {
-      queryBuilder.andWhere('expense.category = :category', { category });
+      qb.andWhere('expense.category = :category', { category });
     }
 
-    // Filter by date range
+    // Date range filter
     if (startDate) {
-      queryBuilder.andWhere('expense.date >= :startDate', { startDate });
+      qb.andWhere('expense.date >= :startDate', { startDate: new Date(startDate) });
     }
     if (endDate) {
-      queryBuilder.andWhere('expense.date <= :endDate', { endDate });
+      qb.andWhere('expense.date <= :endDate', { endDate: new Date(endDate) });
     }
 
-    // Sorting
+    // Sorting (safe whitelist)
     const sortableColumns = ['title', 'amount', 'date', 'category', 'createdAt'];
     if (sort && sortableColumns.includes(sort)) {
-      queryBuilder.orderBy(`expense.${sort}`, order === 'ASC' ? 'ASC' : 'DESC');
+      qb.orderBy(`expense.${sort}`, order === 'ASC' ? 'ASC' : 'DESC');
     } else {
-      queryBuilder.orderBy('expense.date', 'DESC'); // Default sort by date descending
+      qb.orderBy('expense.date', 'DESC'); // default
     }
 
-    // Pagination
+    // Pagination (support -1 = all)
     if (currentLimit !== -1) {
-      queryBuilder.skip((currentPage - 1) * currentLimit).take(currentLimit);
+      qb.skip((currentPage - 1) * currentLimit).take(currentLimit);
     }
 
-    const [expenses, count] = await queryBuilder.getManyAndCount();
+    // Execute query
+    const [expenses, count] = await qb.getManyAndCount();
 
+    // Map to domain objects
     const result = expenses.map((expense) => ExpenseTypeOrmRepository.toDomain(expense));
 
-    const meta = StrictBuilder<GetAllMetaType>().page(currentPage).limit(currentLimit).total(count).build();
+    // Meta info
+    const totalPages = currentLimit === -1 ? 1 : Math.ceil(count / currentLimit);
+    const meta = StrictBuilder<GetAllMetaType>()
+      .page(currentPage)
+      .limit(currentLimit)
+      .total(count)
+      .totalPages(totalPages)
+      .build();
 
     return StrictBuilder<GetAllExpensesReturnType>().result(result).meta(meta).build();
   }

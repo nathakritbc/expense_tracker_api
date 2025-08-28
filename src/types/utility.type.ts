@@ -10,6 +10,7 @@ export interface GetAllMetaType {
   total: number;
   page: number;
   limit: number;
+  totalPages: number;
 }
 
 export enum EStatus {
