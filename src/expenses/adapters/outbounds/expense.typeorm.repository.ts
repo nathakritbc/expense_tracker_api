@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { Builder, StrictBuilder } from 'builder-pattern';
 import { GetAllMetaType } from 'src/types/utility.type';
 import { UserId } from 'src/users/applications/domains/user.domain';
-import { v4 as uuidv4 } from 'uuid';
 import { Expense, ExpenseAmount, ExpenseId, IExpense } from '../../applications/domains/expense.domain';
 import {
   ExpenseReportReturnType,
@@ -21,9 +20,7 @@ export class ExpenseTypeOrmRepository implements ExpenseRepository {
   constructor(private readonly expenseModel: TransactionHost<TransactionalAdapterTypeOrm>) {}
 
   async create(expense: IExpense): Promise<IExpense> {
-    const uuid = uuidv4() as ExpenseId;
     const expenseEntity = Builder<ExpenseEntity>()
-      .uuid(uuid)
       .title(expense.title)
       .amount(expense.amount)
       .date(expense.date)

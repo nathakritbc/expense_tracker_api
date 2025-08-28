@@ -20,7 +20,17 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/vitest --runInBand",
     "test:e2e": "vitest --config ./test/vitest-e2e.json",
     "release": "semantic-release",
-    "prepare": "husky"
+    "prepare": "husky",
+    "migration:generate": "npm run build && npx typeorm-ts-node-esm migration:generate -d dist/src/databases/data-source.js",
+    "migration:create": "npx typeorm-ts-node-esm migration:create",
+    "migration:run": "npm run build && npx typeorm-ts-node-esm migration:run -d dist/src/databases/data-source.js",
+    "migration:revert": "npm run build && npx typeorm-ts-node-esm migration:revert -d dist/src/databases/data-source.js",
+    "migration:show": "npm run build && npx typeorm-ts-node-esm migration:show -d dist/src/databases/data-source.js",
+    "schema:drop": "npm run build && npx typeorm-ts-node-esm schema:drop -d dist/src/databases/data-source.js",
+    "schema:sync": "npm run build && npx typeorm-ts-node-esm schema:sync -d dist/src/databases/data-source.js",
+    "db:reset": "ts-node -r tsconfig-paths/register src/databases/scripts/reset-database.ts",
+    "db:status": "ts-node -r tsconfig-paths/register src/databases/scripts/migration-status.ts",
+    "db:stats": "ts-node -r tsconfig-paths/register src/databases/scripts/migration-stats.ts"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^3.1.0",

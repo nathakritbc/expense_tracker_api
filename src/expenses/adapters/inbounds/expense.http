@@ -17,7 +17,7 @@ Content-Type: application/json
 authorization: Bearer {{myAccessToken}}
 
 {
-    "title": "Apple 13 Pro Max 256GB",
+    "title": "Apple 14 Pro Max 256GB",
     "amount": 150.75,
     "date": "2024-01-15",
     "category": "Food2",

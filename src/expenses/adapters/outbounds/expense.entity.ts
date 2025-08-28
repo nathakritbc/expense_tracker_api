@@ -1,5 +1,14 @@
 import type { UserId } from 'src/users/applications/domains/user.domain';
-import { Column, CreateDateColumn, Entity, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import type {
   ExpenseAmount,
   ExpenseCategory,
@@ -23,6 +32,8 @@ export const expensesTableName = 'expenses';
 export class ExpenseEntity {
   @PrimaryColumn({
     type: 'uuid',
+    name: 'uuid',
+    default: 'gen_random_uuid()',
   })
   uuid: ExpenseId;
 
@@ -59,6 +70,13 @@ export class ExpenseEntity {
     name: 'user_id',
   })
   userId: UserId;
+
+  @ManyToOne('UserEntity', 'expenses', {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: any;
 
   @CreateDateColumn()
   declare createdAt: ExpenseCreatedAt;

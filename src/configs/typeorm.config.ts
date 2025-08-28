@@ -19,6 +19,9 @@ const typeOrmDatabaseConfig = StrictBuilder<PostgresConnectionOptions>()
   .entities([__dirname + '/../**/*.entity{.ts,.js}'])
   .synchronize(false)
   .logging(true)
+  .migrations([__dirname + '/../databases/migrations/*{.ts,.js}'])
+  .migrationsTableName('migrations_history')
+  .migrationsRun(false)
   .build();
 
 const imports = [DatabaseModule];
