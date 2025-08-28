@@ -17,7 +17,8 @@ const typeOrmDatabaseConfig = StrictBuilder<PostgresConnectionOptions>()
   .password(process.env.DB_PASSWORD || '')
   .database(process.env.DB_DATABASE || 'nestjs-hexagonal-architecture-typeorm')
   .entities([__dirname + '/../**/*.entity{.ts,.js}'])
-  .synchronize(true)
+  .synchronize(false)
+  .logging(true)
   .build();
 
 const imports = [DatabaseModule];
