@@ -2,6 +2,25 @@ import { DataSource } from 'typeorm';
 import { typeOrmDatabaseConfig } from '../configs/typeorm.config';
 
 /**
+ * Interface for migration history record from database
+ */
+interface MigrationHistoryRecord {
+  name: string;
+  executed_at: Date;
+  execution_time: number;
+  success: boolean;
+  error_message?: string;
+}
+
+/**
+ * Interface for migration execution result
+ */
+interface MigrationResult {
+  timestamp: number;
+  name: string;
+}
+
+/**
  * Enhanced migration utilities with timestamp tracking
  */
 export class MigrationUtils {
@@ -88,7 +107,7 @@ export class MigrationUtils {
           LIMIT 10
         `);
 
-        history.forEach((record: any, index: number) => {
+        history.forEach((record: MigrationHistoryRecord, index: number) => {
           const status = record.success ? '✅' : '❌';
           const time = record.execution_time ? `${record.execution_time}ms` : 'N/A';
           const date = new Date(record.executed_at).toLocaleString();
@@ -125,7 +144,7 @@ export class MigrationUtils {
    * Log migration execution details to custom history table
    */
   private static async logMigrationExecution(
-    migrations: any[],
+    migrations: MigrationResult[],
     executionTime: number,
     success: boolean,
     errorMessage?: string,
