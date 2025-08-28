@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/nathakritbc/expense_tracker_api/compare/v1.0.0...v1.1.0) (2025-08-28)
+
+### Features
+
+*  🎸 update HTTP documentation for authentication and expenses ([08f4ed4](https://github.com/nathakritbc/expense_tracker_api/commit/08f4ed45222221e7328e89266aa8f2946cc50455))
+* 🎉 add comprehensive README.md for Expense Tracker API ([563dc2d](https://github.com/nathakritbc/expense_tracker_api/commit/563dc2d76115690e433187df3de32126a0446293))
+* 🎸 add user and expenses tables with relationships ([cd4d44f](https://github.com/nathakritbc/expense_tracker_api/commit/cd4d44f455a9dafd09e0b45e1445658909d6f813))
+* 🎸 configure TypeORM settings and introduce data source ([d3f7de4](https://github.com/nathakritbc/expense_tracker_api/commit/d3f7de4bd1d4c32411a3eb9d01a01c6747a67f29))
+* 🎸 enhance migration utilities with type safety and detailed logging ([aae9402](https://github.com/nathakritbc/expense_tracker_api/commit/aae9402bc3c1a273bef6b795d0b9dc6cb619d39c))
+* 🎸 update expense examples in HTTP documentation with new titles and UUIDs ([96ec5ff](https://github.com/nathakritbc/expense_tracker_api/commit/96ec5ffb8a7becfe3d7ee31974ac5ebc2782d75b))
+* 🎸implement enhanced migration system with custom tracking ([dc1de70](https://github.com/nathakritbc/expense_tracker_api/commit/dc1de702fa1c9cc28b57e85f17b9f7401480524a))
+* 🎸remove custom validation functions for date format and integer number ([75947d8](https://github.com/nathakritbc/expense_tracker_api/commit/75947d8a2f86c6575546a16297abac0a4ca82754))
+
+### Code Refactoring
+
+* 💡 enhance expense query logic by consolidating query builder usage and adding totalPages to metadata ([786beb9](https://github.com/nathakritbc/expense_tracker_api/commit/786beb966b378a5b1ccb1b07453afbb0a5104297))
+* 💡 optimize expense report query by consolidating query builders and improving type conversions ([7312983](https://github.com/nathakritbc/expense_tracker_api/commit/7312983aba694bf48c7e9f68bf9bfa6ad4e61d02))
+
 ## 1.0.0 (2025-08-28)
 
 ### Features
