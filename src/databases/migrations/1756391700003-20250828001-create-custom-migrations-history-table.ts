@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { CustomMigrationTable } from '../custom-migration-table';
 
-export class CreateCustomMigrationsHistoryTable1756391700003 implements MigrationInterface {
+export class CreateCustomMigrationsHistoryTable1756391900903 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Drop existing standard migrations_history table if it exists
     await queryRunner.dropTable('migrations_history', true);

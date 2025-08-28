@@ -53,20 +53,20 @@ npm run db:stats
 อยู่ใน `src/databases/migrations/`
 
 ### Current Migrations
-1. `1756391700001-CreateUsersTable.ts` - สร้าง users table
+1. `1756391900901-CreateUsersTable.ts` - สร้าง users table
    - uuid (Primary Key)
    - email (Unique)
    - password
    - createdAt, updatedAt
 
-2. `1756391700002-CreateExpensesTable.ts` - สร้าง expenses table
+2. `1756391900902-CreateExpensesTable.ts` - สร้าง expenses table
    - uuid (Primary Key)
    - title, amount, date, category, notes
    - user_id (Foreign Key → users.uuid)
    - createdAt, updatedAt
    - Indexes: user_id, user_id+category, user_id+date, user_id+category+date
 
-3. `1756391700003-CreateCustomMigrationsHistoryTable.ts` - สร้าง enhanced migrations_history table
+3. `1756391900903-CreateCustomMigrationsHistoryTable.ts` - สร้าง enhanced migrations_history table
    - Enhanced tracking พร้อม timestamp และ execution details
 
 ## Enhanced Migration Tracking

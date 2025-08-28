@@ -66,7 +66,7 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
    ```env
    # Application
    NODE_ENV=development
-   PORT=7000
+   PORT=9009
 
    # Database Configuration
    DB_DIALECT=postgres
@@ -111,8 +111,8 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
 
 Once the application is running, visit:
 
-- **Swagger UI**: `http://localhost:7000/api`
-- **Health Check**: `http://localhost:7000`
+- **Swagger UI**: `http://localhost:9009/api`
+- **Health Check**: `http://localhost:9009`
 
 ### 🔑 Authentication Endpoints
 
@@ -150,7 +150,7 @@ All expense endpoints require JWT authentication via `Authorization: Bearer <tok
 #### Register a new user
 
 ```bash
-curl -X POST http://localhost:7000/auth/register \
+curl -X POST http://localhost:9009/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -161,7 +161,7 @@ curl -X POST http://localhost:7000/auth/register \
 #### Login
 
 ```bash
-curl -X POST http://localhost:7000/auth/login \
+curl -X POST http://localhost:9009/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com", 
@@ -172,7 +172,7 @@ curl -X POST http://localhost:7000/auth/login \
 #### Create an expense
 
 ```bash
-curl -X POST http://localhost:7000/expenses \
+curl -X POST http://localhost:9009/expenses \
   -H "Authorization: Bearer <your-jwt-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -187,7 +187,7 @@ curl -X POST http://localhost:7000/expenses \
 #### Get expenses with filtering
 
 ```bash
-curl -X GET "http://localhost:7000/expenses?category=Food&startDate=2024-01-01&endDate=2024-01-31&page=1&limit=10" \
+curl -X GET "http://localhost:9009/expenses?category=Food&startDate=2024-01-01&endDate=2024-01-31&page=1&limit=10" \
   -H "Authorization: Bearer <your-jwt-token>"
 ```
 
@@ -272,7 +272,7 @@ Make sure to set the following environment variables in production:
 
 ```env
 NODE_ENV=production
-PORT=7000
+PORT=9009
 DB_HOST=your-prod-db-host
 DB_PORT=5432
 DB_USERNAME=your-prod-username
@@ -282,9 +282,86 @@ JWT_SECRET=your-super-secure-jwt-secret
 JWT_EXPIRES_IN=24h
 ```
 
-### Docker Support (Coming Soon)
+## 🐳 Docker Deployment
 
-Docker configuration will be added in future releases.
+This project includes comprehensive Docker support for both development and production environments.
+
+### Quick Start with Docker
+
+1. **Clone and setup:**
+   ```bash
+   git clone <repository-url>
+   cd expense_tracker_api
+   make setup
+   ```
+
+2. **Or manually:**
+   ```bash
+   # Copy environment file
+   cp env.example .env
+   
+   # Start development environment
+   make dev
+   
+   # Or start production environment
+   make prod
+   ```
+
+### Available Docker Commands
+
+```bash
+# Development
+make dev          # Start development environment
+make dev-logs     # View development logs
+make dev-shell    # Open development shell
+
+# Production
+make prod         # Start production environment
+make prod-logs    # View production logs
+make prod-shell   # Open production shell
+
+# Management
+make stop         # Stop all containers
+make status       # Show container status
+make clean        # Remove all containers and volumes
+make build        # Build all Docker images
+
+# Database
+make migrate      # Run database migrations manually
+make db-status    # Show migration status
+make db-reset     # Reset database
+
+# Health checks
+make health       # Check application health
+```
+
+### Docker Services
+
+- **API**: NestJS application (port 9009) - runs migrations automatically in production
+- **PostgreSQL**: Database (port 5432)
+- **Nginx**: Reverse proxy (port 80/443) - production only
+
+### Environment Configuration
+
+Copy `env.example` to `.env` and configure your environment variables:
+
+```env
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres123
+DB_DATABASE=expense_tracker
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key
+
+# Application
+NODE_ENV=development
+PORT=9009
+```
+
+For detailed Docker deployment instructions, see [README-Docker.md](README-Docker.md).
 
 ## 📝 Release Management
 
@@ -357,7 +434,7 @@ This project is licensed under **nathakritbc**.
 #### Port Already in Use
 
 - Change `PORT` in `.env` file
-- Kill process using the port: `lsof -ti:7000 | xargs kill -9`
+- Kill process using the port: `lsof -ti:9009 | xargs kill -9`
 
 ### Support
 
