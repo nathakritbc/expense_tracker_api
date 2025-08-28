@@ -46,7 +46,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 @UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
+@ApiBearerAuth('accessToken')
 @ApiTags('expenses')
 @Controller('expenses')
 export class ExpenseController {

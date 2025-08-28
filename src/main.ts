@@ -42,12 +42,15 @@ function setupSwagger(app: INestApplication) {
     .setDescription('The Expense API description')
     .setVersion('1.0')
     .addTag('Expense')
-    .addBearerAuth({
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-      description: 'Enter JWT token',
-    })
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'Enter JWT token',
+      },
+      'accessToken',
+    )
     .build();
 
   SwaggerModule.setup('api', app, () => SwaggerModule.createDocument(app, config));
