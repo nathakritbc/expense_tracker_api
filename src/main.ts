@@ -1,10 +1,10 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { port } from './configs/app.config';
-import { accessKeyToken } from './configs/jwt.config';
+import { swaggerConfig } from './configs/swagger.config';
 
 const corsOrigins = ['*'];
 
@@ -38,23 +38,7 @@ function setupLogger(app: INestApplication): Logger {
 }
 
 function setupSwagger(app: INestApplication) {
-  const config = new DocumentBuilder()
-    .setTitle('Expense API')
-    .setDescription('The Expense API description')
-    .setVersion('1.0')
-    .addTag('Expense')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        description: 'Enter JWT token',
-      },
-      accessKeyToken,
-    )
-    .build();
-
-  SwaggerModule.setup('api', app, () => SwaggerModule.createDocument(app, config));
+  SwaggerModule.setup('api', app, () => SwaggerModule.createDocument(app, swaggerConfig));
 }
 
 function setupPipes(app: INestApplication) {
