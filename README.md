@@ -133,7 +133,16 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
 
 ## 📖 API Documentation
 
-Once the application is running, visit:
+### Live API Testing
+
+The API is available for testing at: **https://expense-tracker-api-yvb7.onrender.com/**
+
+- **Swagger UI**: `https://expense-tracker-api-yvb7.onrender.com/api`
+- **Health Check**: `https://expense-tracker-api-yvb7.onrender.com/`
+
+### Local Development
+
+Once the application is running locally, visit:
 
 - **Swagger UI**: `http://localhost:9009/api`
 - **Health Check**: `http://localhost:9009`
@@ -171,32 +180,57 @@ All expense endpoints require JWT authentication via `Authorization: Bearer <tok
 
 ### Example API Usage
 
-#### Register a new user
+#### Testing with Live API
+
+All examples below can be tested against the live API at `https://expense-tracker-api-yvb7.onrender.com/`
+
+#### 1. Register a new user
 
 ```bash
-curl -X POST http://localhost:9009/auth/register \
+curl -X POST https://expense-tracker-api-yvb7.onrender.com/auth/register \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
+    "email": "test@example.com",
     "password": "securePassword123"
   }'
 ```
 
-#### Login
+**Expected Response:**
+```json
+{
+  "id": "user-id",
+  "email": "test@example.com",
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-01-15T10:30:00.000Z"
+}
+```
+
+#### 2. Login
 
 ```bash
-curl -X POST http://localhost:9009/auth/login \
+curl -X POST https://expense-tracker-api-yvb7.onrender.com/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com", 
+    "email": "test@example.com", 
     "password": "securePassword123"
   }'
 ```
 
-#### Create an expense
+**Expected Response:**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "user-id",
+    "email": "test@example.com"
+  }
+}
+```
+
+#### 3. Create an expense
 
 ```bash
-curl -X POST http://localhost:9009/expenses \
+curl -X POST https://expense-tracker-api-yvb7.onrender.com/expenses \
   -H "Authorization: Bearer <your-jwt-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -208,12 +242,312 @@ curl -X POST http://localhost:9009/expenses \
   }'
 ```
 
-#### Get expenses with filtering
+**Expected Response:**
+```json
+{
+  "id": "expense-id",
+  "title": "Lunch at restaurant",
+  "amount": 250.50,
+  "category": "Food",
+  "date": "2024-01-15",
+  "notes": "Team lunch meeting",
+  "userId": "user-id",
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-01-15T10:30:00.000Z"
+}
+```
+
+#### 4. Get all expenses
 
 ```bash
+curl -X GET https://expense-tracker-api-yvb7.onrender.com/expenses \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+#### 5. Get expenses with filtering
+
+```bash
+curl -X GET "https://expense-tracker-api-yvb7.onrender.com/expenses?category=Food&startDate=2024-01-01&endDate=2024-01-31&page=1&limit=10" \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+#### 6. Get expense by ID
+
+```bash
+curl -X GET https://expense-tracker-api-yvb7.onrender.com/expenses/expense-id \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+#### 7. Update an expense
+
+```bash
+curl -X PUT https://expense-tracker-api-yvb7.onrender.com/expenses/expense-id \
+  -H "Authorization: Bearer <your-jwt-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated lunch expense",
+    "amount": 300.00,
+    "category": "Food",
+    "date": "2024-01-15",
+    "notes": "Updated team lunch meeting"
+  }'
+```
+
+#### 8. Delete an expense
+
+```bash
+curl -X DELETE https://expense-tracker-api-yvb7.onrender.com/expenses/expense-id \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+#### 9. Get expense report by category
+
+```bash
+curl -X GET "https://expense-tracker-api-yvb7.onrender.com/expenses/reports/by-category?startDate=2024-01-01&endDate=2024-01-31" \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+**Expected Response:**
+```json
+{
+  "reports": [
+    {
+      "category": "Food",
+      "totalAmount": 550.50,
+      "count": 2
+    },
+    {
+      "category": "Transport",
+      "totalAmount": 150.00,
+      "count": 1
+    }
+  ],
+  "totalExpenses": 700.50,
+  "totalCount": 3
+}
+```
+
+### Testing with JavaScript/Node.js
+
+```javascript
+// Example using fetch API
+const API_BASE = 'https://expense-tracker-api-yvb7.onrender.com';
+
+// Register user
+const registerResponse = await fetch(`${API_BASE}/auth/register`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'test@example.com',
+    password: 'securePassword123'
+  })
+});
+
+// Login
+const loginResponse = await fetch(`${API_BASE}/auth/login`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    email: 'test@example.com',
+    password: 'securePassword123'
+  })
+});
+
+const { access_token } = await loginResponse.json();
+
+// Create expense
+const createExpenseResponse = await fetch(`${API_BASE}/expenses`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${access_token}`
+  },
+  body: JSON.stringify({
+    title: 'Lunch at restaurant',
+    amount: 250.50,
+    category: 'Food',
+    date: '2024-01-15',
+    notes: 'Team lunch meeting'
+  })
+});
+```
+
+### Testing with Postman
+
+1. **Import the collection** or create new requests
+2. **Set base URL**: `https://expense-tracker-api-yvb7.onrender.com`
+3. **Authentication**: Use Bearer Token in Authorization header
+4. **Test endpoints**:
+   - `POST /auth/register`
+   - `POST /auth/login`
+   - `GET /expenses`
+   - `POST /expenses`
+   - `GET /expenses/{id}`
+   - `PUT /expenses/{id}`
+   - `DELETE /expenses/{id}`
+   - `GET /expenses/reports/by-category`
+
+### Local Development Examples
+
+For local development, replace the base URL with `http://localhost:9009`:
+
+```bash
+# Register a new user
+curl -X POST http://localhost:9009/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securePassword123"
+  }'
+
+# Login
+curl -X POST http://localhost:9009/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com", 
+    "password": "securePassword123"
+  }'
+
+# Create an expense
+curl -X POST http://localhost:9009/expenses \
+  -H "Authorization: Bearer <your-jwt-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Lunch at restaurant",
+    "amount": 250.50,
+    "category": "Food",
+    "date": "2024-01-15",
+    "notes": "Team lunch meeting"
+  }'
+
+# Get expenses with filtering
 curl -X GET "http://localhost:9009/expenses?category=Food&startDate=2024-01-01&endDate=2024-01-31&page=1&limit=10" \
   -H "Authorization: Bearer <your-jwt-token>"
 ```
+
+### Error Handling
+
+The API returns standard HTTP status codes and error messages:
+
+#### Common HTTP Status Codes
+
+| Status Code | Description | Example |
+|-------------|-------------|---------|
+| `200` | Success | Request completed successfully |
+| `201` | Created | New resource created successfully |
+| `400` | Bad Request | Invalid request data |
+| `401` | Unauthorized | Missing or invalid JWT token |
+| `403` | Forbidden | Insufficient permissions |
+| `404` | Not Found | Resource not found |
+| `409` | Conflict | Resource already exists (e.g., email already registered) |
+| `422` | Unprocessable Entity | Validation errors |
+| `500` | Internal Server Error | Server error |
+
+#### Error Response Format
+
+```json
+{
+  "statusCode": 400,
+  "message": "Validation failed",
+  "error": "Bad Request",
+  "details": [
+    {
+      "field": "email",
+      "message": "email must be an email"
+    },
+    {
+      "field": "password",
+      "message": "password should not be empty"
+    }
+  ]
+}
+```
+
+#### Common Error Scenarios
+
+**1. Invalid JWT Token:**
+```bash
+curl -X GET https://expense-tracker-api-yvb7.onrender.com/expenses \
+  -H "Authorization: Bearer invalid-token"
+```
+
+**Response:**
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized",
+  "error": "Unauthorized"
+}
+```
+
+**2. Email Already Exists:**
+```bash
+curl -X POST https://expense-tracker-api-yvb7.onrender.com/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "existing@example.com",
+    "password": "password123"
+  }'
+```
+
+**Response:**
+```json
+{
+  "statusCode": 409,
+  "message": "User with this email already exists",
+  "error": "Conflict"
+}
+```
+
+**3. Invalid Expense Data:**
+```bash
+curl -X POST https://expense-tracker-api-yvb7.onrender.com/expenses \
+  -H "Authorization: Bearer <valid-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "",
+    "amount": -100,
+    "category": "InvalidCategory"
+  }'
+```
+
+**Response:**
+```json
+{
+  "statusCode": 422,
+  "message": "Validation failed",
+  "error": "Unprocessable Entity",
+  "details": [
+    {
+      "field": "title",
+      "message": "title should not be empty"
+    },
+    {
+      "field": "amount",
+      "message": "amount must be a positive number"
+    },
+    {
+      "field": "category",
+      "message": "category must be one of the following values: Food, Transport, Entertainment, Shopping, Health, Education, Other"
+    }
+  ]
+}
+```
+
+### Testing Checklist
+
+When testing the API, make sure to verify:
+
+- [ ] **Authentication**: Register and login work correctly
+- [ ] **JWT Token**: Token is received and can be used for authenticated requests
+- [ ] **CRUD Operations**: Create, read, update, delete expenses
+- [ ] **Filtering**: Search, category filter, date range filter
+- [ ] **Pagination**: Page and limit parameters work
+- [ ] **Sorting**: Sort by different fields
+- [ ] **Reports**: Category-based expense reports
+- [ ] **Error Handling**: Invalid requests return appropriate error codes
+- [ ] **Validation**: Required fields and data types are validated
+- [ ] **User Isolation**: Users can only access their own expenses
 
 ## 🛠️ Development
 
