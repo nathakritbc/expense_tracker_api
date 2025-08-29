@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.1](https://github.com/nathakritbc/expense_tracker_api/compare/v1.1.0...v1.1.1) (2025-08-29)
+
+### Bug Fixes
+
+* 🐛 Update keepalive workflow to use API_URL secret for health check ([1cb321f](https://github.com/nathakritbc/expense_tracker_api/commit/1cb321fcfe5b2a8493079654166f8494f0f51a11))
+
 ## [1.1.0](https://github.com/nathakritbc/expense_tracker_api/compare/v1.0.1...v1.1.0) (2025-08-29)
 
 ### Features
