@@ -1,17 +1,53 @@
 name: Keep Render Service Alive
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:        
   schedule:
-    - cron: "*/15 * * * *"  
+    # ทำงานทุก 10 นาที (แทนที่ 15 นาที เพื่อป้องกัน service sleep)
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      api_url:
+        description: 'API URL to ping (optional, will use secret if empty)'
+        required: false
+        type: string
 
 jobs:
   keepalive:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping API
+      - name: Set API URL
+        id: set-url
         run: |
-          curl -s ${{ secrets.API_URL }}/health || true
+          if [ -n "${{ github.event.inputs.api_url }}" ]; then
+            echo "api_url=${{ github.event.inputs.api_url }}" >> $GITHUB_OUTPUT
+            echo "Using manual API URL: ${{ github.event.inputs.api_url }}"
+          elif [ -n "${{ secrets.API_URL }}" ]; then
+            echo "api_url=${{ secrets.API_URL }}" >> $GITHUB_OUTPUT
+            echo "Using secret API URL"
+          else
+            echo "api_url=https://expense-tracker-api-app.onrender.com" >> $GITHUB_OUTPUT
+            echo "Using default API URL (fallback)"
+          fi
+
+      - name: Ping API Health Check
+        run: |
+          API_URL="${{ steps.set-url.outputs.api_url }}"
+          echo "Pinging API at: $API_URL/health"
+          
+          # ลอง ping health endpoint
+          if curl -f -s --max-time 30 "$API_URL/health"; then
+            echo "✅ API Health check successful"
+          else
+            echo "❌ Health check failed, trying root endpoint..."
+            # ถ้า health endpoint ไม่ได้ ลอง root endpoint
+            if curl -f -s --max-time 30 "$API_URL"; then
+              echo "✅ Root endpoint accessible"
+            else
+              echo "❌ Both endpoints failed"
+              exit 1
+            fi
+          fi
+
+      - name: Log Timestamp
+        run: |
+          echo "Keep-alive completed at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
