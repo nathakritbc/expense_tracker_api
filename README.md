@@ -30,6 +30,7 @@ A modern expense tracking RESTful API built with NestJS, TypeORM, and PostgreSQL
 - **Clean Architecture**: Hexagonal Architecture pattern
 - **Domain-Driven Design**: Clear separation of concerns
 - **TypeScript**: Full type safety
+- **Branded Types**: Type-safe identifiers and domain objects
 - **Testing**: Comprehensive test coverage with Vitest
 - **Logging**: Structured logging with Pino
 - **Linting**: Code quality with Oxlint
