@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/nathakritbc/expense_tracker_api/compare/v1.0.1...v1.1.0) (2025-08-29)
+
+### Features
+
+* 🎸 Add GitHub Actions workflow to keep Render service alive with scheduled health checks ([1334e1c](https://github.com/nathakritbc/expense_tracker_api/commit/1334e1cf44a9d200226200b60acc058f87f4794e))
+
 ## [1.0.1](https://github.com/nathakritbc/expense_tracker_api/compare/v1.0.0...v1.0.1) (2025-08-29)
 
 ### Code Refactoring
