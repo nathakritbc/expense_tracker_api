@@ -1,9 +1,12 @@
 name: Keep Render Service Alive
 
 on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:        
   schedule:
-    - cron: "*/15 * * * *"  # ทุกๆ 15 นาที
-  workflow_dispatch:         # ให้กด run เองได้ด้วย
+    - cron: "*/15 * * * *"  
 
 jobs:
   keepalive:
