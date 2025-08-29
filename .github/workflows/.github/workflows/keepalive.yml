@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Ping API
         run: |
-          curl -s https://expense-tracker-api-yvb7.onrender.com/health || true
+          curl -s ${{ secrets.API_URL }}/health || true
