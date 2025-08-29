@@ -4,7 +4,7 @@
   "description": "Expense Tracker API App",
   "author": "Nathakrit Tato",
   "private": true,
-  "license": "Nathakritbc",
+  "license": "nathakritbc",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
