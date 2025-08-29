@@ -1,0 +1,14 @@
+name: Keep Render Service Alive
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # ทุกๆ 15 นาที
+  workflow_dispatch:         # ให้กด run เองได้ด้วย
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API
+        run: |
+          curl -s https://expense-tracker-api-yvb7.onrender.com/health || true
