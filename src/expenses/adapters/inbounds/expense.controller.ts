@@ -16,6 +16,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Builder, StrictBuilder } from 'builder-pattern';
 import { JwtAuthGuard } from 'src/auth/jwtAuth.guard';
+import { accessKeyToken } from 'src/configs/jwt.config';
 import { UserId } from 'src/users/applications/domains/user.domain';
 import type {
   Expense,
@@ -46,7 +47,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 @UseGuards(JwtAuthGuard)
-@ApiBearerAuth('accessToken')
+@ApiBearerAuth(accessKeyToken)
 @ApiTags('expenses')
 @Controller('expenses')
 export class ExpenseController {

@@ -3,6 +3,7 @@ import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { Transactional } from '@nestjs-cls/transactional';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Builder } from 'builder-pattern';
+import { accessKeyToken } from 'src/configs/jwt.config';
 import type { LoginCommand } from '../../usecases/login.usecase';
 import { LoginUseCase } from '../../usecases/login.usecase';
 import { RegisterCommand, RegisterUseCase } from '../../usecases/register.usecase';
@@ -36,7 +37,7 @@ export class AuthController {
   })
   @Transactional()
   @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
+  async register(@Body() registerDto: RegisterDto): Promise<{ [accessKeyToken]: string }> {
     const command = Builder<RegisterCommand>().email(registerDto.email).password(registerDto.password).build();
     return this.registerUseCase.execute(command);
   }
@@ -56,11 +57,8 @@ export class AuthController {
   })
   @Transactional()
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto): Promise<{ [accessKeyToken]: string }> {
     const command = Builder<LoginCommand>().email(loginDto.email).password(loginDto.password).build();
-    const accessToken = await this.loginUseCase.execute(command);
-    return {
-      accessToken,
-    };
+    return this.loginUseCase.execute(command);
   }
 }

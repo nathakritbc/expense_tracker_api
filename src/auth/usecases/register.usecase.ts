@@ -1,6 +1,7 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Builder } from 'builder-pattern';
+import { accessKeyToken } from 'src/configs/jwt.config';
 import { User, UserEmail, UserPassword } from '../../users/applications/domains/user.domain';
 import type { UserRepository } from '../../users/applications/ports/user.repository';
 import { userRepositoryToken } from '../../users/applications/ports/user.repository';
@@ -18,7 +19,7 @@ export class RegisterUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  async execute({ email, password }: RegisterCommand): Promise<{ accessToken: string }> {
+  async execute({ email, password }: RegisterCommand): Promise<{ [accessKeyToken]: string }> {
     // Check if user already exists
     const existingUser = await this.userRepository.getByEmail(email);
     if (existingUser) throw new ConflictException('Email already exists');
@@ -38,6 +39,6 @@ export class RegisterUseCase {
       email: createdUser.email,
     });
 
-    return { accessToken };
+    return { [accessKeyToken]: accessToken };
   }
 }

@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { port } from './configs/app.config';
+import { accessKeyToken } from './configs/jwt.config';
 
 const corsOrigins = ['*'];
 
@@ -49,7 +50,7 @@ function setupSwagger(app: INestApplication) {
         bearerFormat: 'JWT',
         description: 'Enter JWT token',
       },
-      'accessToken',
+      accessKeyToken,
     )
     .build();
 
