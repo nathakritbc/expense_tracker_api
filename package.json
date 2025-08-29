@@ -1,6 +1,6 @@
 {
   "name": "expense-tracker-api-app",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Expense Tracker API App",
   "author": "Nathakrit Tato",
   "private": true,
