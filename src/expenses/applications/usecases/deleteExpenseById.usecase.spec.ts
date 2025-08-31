@@ -7,7 +7,7 @@ import { ExpenseId, IExpense } from '../domains/expense.domain';
 import { ExpenseRepository } from '../ports/expense.repository';
 import { DeleteExpenseByIdUseCase } from './deleteExpenseById.usecase';
 
-describe('DeleteProductByIdUseCase', () => {
+describe('DeleteExpenseByIdUseCase', () => {
   let useCase: DeleteExpenseByIdUseCase;
   const expenseRepository = mock<ExpenseRepository>();
 
