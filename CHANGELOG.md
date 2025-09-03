@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/nathakritbc/expense_tracker_api/compare/v1.2.2...v1.3.0) (2025-09-03)
+
+### Features
+
+*  🎸  Add logger configuration and enhance expense API with search functionality ([80d3937](https://github.com/nathakritbc/expense_tracker_api/commit/80d3937f185671e9b5bf554abd105e365da90437))
+
 ## [1.2.2](https://github.com/nathakritbc/expense_tracker_api/compare/v1.2.1...v1.2.2) (2025-08-29)
 
 ### Bug Fixes
