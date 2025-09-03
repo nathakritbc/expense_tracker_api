@@ -32,6 +32,10 @@ authorization: Bearer {{myAccessToken}}
 GET {{host}}/expenses?category=Food2&startDate=2024-01-01&endDate=2024-12-31&page=1&limit=10&sort=date&order=DESC
 authorization: Bearer {{myAccessToken}}
 
+### Get All Expenses with search
+GET {{host}}/expenses?search=Movie
+authorization: Bearer {{myAccessToken}}
+
 ### Get All Expenses with filters
 GET {{host}}/expenses?startDate=2024-01-01&endDate=2024-12-31&page=1&limit=1&sort=date&order=DESC
 authorization: Bearer {{myAccessToken}}
